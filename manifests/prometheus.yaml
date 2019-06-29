@@ -115,6 +115,7 @@ spec:
         command:
         - prometheus
         - --config.file=/etc/prometheus/prometheus.yml
+        - --storage.tsdb.retention.size=2GB
         ports:
         - containerPort: 9090
           name: prometheus
