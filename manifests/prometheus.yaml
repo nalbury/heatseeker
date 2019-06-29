@@ -6,7 +6,7 @@ metadata:
 ---
 apiVersion: v1
 data:
-  prometheus.yaml: |
+  prometheus.yml: |
     global:
       scrape_interval:     15s # By default, scrape targets every 15 seconds.
       external_labels:
@@ -48,7 +48,6 @@ spec:
       - name: server
         image: prom/prometheus:v2.10.0
         args:
-        - --config.file="/etc/prometheus/prometheus.yaml"
         - --storage.tsdb.retention.size=2GB
         - --web.page-title="Heatseeker"
         ports:
@@ -56,8 +55,8 @@ spec:
           name: prometheus
         volumeMounts:
         - name: config
-          mountPath: /etc/prometheus/prometheus.yaml
-          subPath: prometheus.yaml
+          mountPath: /etc/prometheus/prometheus.yml
+          subPath: prometheus.yml
         - name: data
           mountPath: /prometheus
         readinessProbe:
