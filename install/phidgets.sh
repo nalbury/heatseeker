@@ -1,14 +1,6 @@
 #!/bin/bash
 
-pushd /tmp/
-
-curl -Lo /tmp/libphidget22.tar.gz https://www.phidgets.com/downloads/phidget22/libraries/linux/libphidget22.tar.gz
-tar -xvf libphidget22.tar.gz -C ./
-
-pushd libphidget22-*
-
-./configure
-make
-make install
-
-popd
+wget -qO- http://www.phidgets.com/gpgkey/pubring.gpg | apt-key add -
+echo 'deb http://www.phidgets.com/debian stretch main' > /etc/apt/sources.list.d/phidgets.list
+apt-get update
+apt-get install libphidget22
