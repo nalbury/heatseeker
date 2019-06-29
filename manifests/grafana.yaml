@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: grafana
+  namespace: grafana
+spec:
+  serviceName: grafana
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      securityContext:
+        fsGroup: 65534
+      containers:
+      - name: server
+        image: grafana/grafana:6.2.5
+        ports:
+        - containerPort: 3000
+          name: grafana
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/grafana
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 5
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      storageClassName: local-path
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  namespace: grafana
+spec:
+  selector:
+    app: grafana
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 3000
+    name: http-port
+    protocol: TCP
