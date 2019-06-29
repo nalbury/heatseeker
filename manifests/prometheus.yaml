@@ -15,8 +15,16 @@ data:
     scrape_configs:
       - job_name: 'heatseaker'
         scrape_interval: 5s
-        static_configs:
-          - targets: ['localhost:8000']
+        tls_config:
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+        kubernetes_sd_configs:
+          - role: node
+        relabel_configs:
+        - source_labels: [__meta_kubernetes_node_address_NodeInternalIP]
+          regex: (.+)
+          target_label: __address__
+          replacement: ${1}:8000
 kind: ConfigMap
 metadata:
   creationTimestamp: "2019-06-29T17:51:39Z"
@@ -47,9 +55,9 @@ spec:
       containers:
       - name: server
         image: prom/prometheus:v2.10.0
-        args:
-        - --storage.tsdb.retention.size=2GB
-        - --web.page-title="Heatseeker"
+        command:
+        - prometheus
+        - --config.file=/etc/prometheus/prometheus.yml
         ports:
         - containerPort: 9090
           name: prometheus
