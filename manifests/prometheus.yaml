@@ -47,6 +47,10 @@ spec:
       containers:
       - name: server
         image: prom/prometheus:v2.10.0
+        args:
+        - --config.file="/etc/prometheus/prometheus.yaml"
+        - --storage.tsdb.retention.size=2GB
+        - --web.page-title="Heatseeker"
         ports:
         - containerPort: 9090
           name: prometheus
