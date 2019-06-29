@@ -7,13 +7,13 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: local-path-provisioner-service-account
-  namespace: kube-system
+  namespace: local-path-storage
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
   name: local-path-provisioner-role
-  namespace: kube-system
+  namespace: local-path-storage
 rules:
 - apiGroups: [""]
   resources: ["nodes", "persistentvolumeclaims"]
@@ -32,7 +32,7 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
   name: local-path-provisioner-bind
-  namespace: kube-system
+  namespace: local-path-storage
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -40,13 +40,13 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: local-path-provisioner-service-account
-  namespace: kube-system
+  namespace: local-path-storage
 ---
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: local-path-provisioner
-  namespace: kube-system
+  namespace: local-path-storage
 spec:
   replicas: 1
   selector:
@@ -93,7 +93,7 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: local-path-config
-  namespace: kube-system
+  namespace: local-path-storage
 data:
   config.json: |-
         {
