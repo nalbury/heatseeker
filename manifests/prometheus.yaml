@@ -106,6 +106,7 @@ spec:
       labels:
         app: prometheus
     spec:
+      serviceAccount: prometheus-monitoring
       securityContext:
         fsGroup: 65534
       containers:
