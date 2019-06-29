@@ -1,0 +1,13 @@
+[Unit]
+Description=Heatseeker
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /usr/local/bin/heatseaker.py
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
