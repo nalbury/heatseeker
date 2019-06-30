@@ -123,8 +123,6 @@ spec:
         - name: config
           mountPath: /etc/prometheus/prometheus.yml
           subPath: prometheus.yml
-        - name: data
-          mountPath: /prometheus
         readinessProbe:
           httpGet:
             path: /status
@@ -136,15 +134,6 @@ spec:
         configMap:
           defaultMode: 420
           name: prometheus-config
-  volumeClaimTemplates:
-  - metadata:
-      name: data
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: local-path
-      resources:
-        requests:
-          storage: 3Gi
 
 ---
 apiVersion: v1

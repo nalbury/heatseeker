@@ -30,25 +30,12 @@ spec:
         ports:
         - containerPort: 3000
           name: grafana
-        volumeMounts:
-        - name: data
-          mountPath: /var/lib/grafana
         readinessProbe:
           httpGet:
             path: /api/health
             port: 3000
           initialDelaySeconds: 30
           periodSeconds: 5
-  volumeClaimTemplates:
-  - metadata:
-      name: data
-    spec:
-      storageClassName: local-path
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 1Gi
-
 ---
 apiVersion: v1
 kind: Service
