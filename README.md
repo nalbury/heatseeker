@@ -124,3 +124,12 @@ cd heatseeker/
 ./install/phidgets.sh
 ./install/exporter.sh
 ```
+
+Once the heatseeker systemd service is running you should be able to see metrics by running:
+
+```
+curl localhost:8000/metrics |grep fahrenheit
+```
+
+You can then add a scrape config in prometheus to scrape this endpoint from another cluster.
+ 
