@@ -59,7 +59,7 @@ Grafana is a very powerful graphing application that can graph and alert on data
 
 ### k3s (kubernetes)
 
-To run prometheus/grafana and enable service discovery of the heatseeker http endpoint, this project uses a minimal kubernetes distrobution called k3s. K3s is designed to run kubernetes on minimal hardware and wraps the essential kuberentes compenents a single binary making it perfectly suited to a Raspberry Pi.
+To run prometheus/grafana and enable service discovery of the heatseeker http endpoint, this project uses a minimal kubernetes distribution called k3s. K3s is designed to run kubernetes on minimal hardware and wraps the essential kuberentes compenents a single binary making it perfectly suited to a Raspberry Pi.
 
 Kuberentes is a vast subject with tons of projects, so I won't dive too deep into it, but the important part is that it gives us a reliable, repeatable way to schedule/orchestrate containers. For this project, we use it to run Prometheus and Grafana (see above). If you want to learn more about k3s, the [docs can be found here.](https://github.com/rancher/k3s/blob/master/README.md)
 
