@@ -8,7 +8,6 @@ TEMPERATURE_FAHRENHEIT = Gauge('current_temperature_fahrenheit', 'Current Temper
 TEMPERATURE_CELCIUS = Gauge('current_temperature_celcius', 'Current Temperature in Celcius')
 
 tc = TemperatureSensor()
-tc.setDeviceSerialNumber(558452)
 tc.setHubPort(1)
 tc.setChannel(0)
 
