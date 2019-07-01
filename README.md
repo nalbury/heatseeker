@@ -8,6 +8,8 @@ I use prometheus and grafana at work to monitor the health of our kubernetes clu
 
 Enter heatseeker! Using open source monitoring applications (prometheus, grafana), simple usb connected sensors (phidgets), a little python and a raspberry pi, heatseeker will record and display temerature data for anything you can think of. 
 
+![demo](https://heatseeker-assets.s3.amazonaws.com/ezgif.com-crop.gif)
+
 ## Components and Requirements
 
 ### Phidgets
