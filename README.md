@@ -147,4 +147,4 @@ You can then add a scrape config for this endpoint in an existing prometheus ins
 
 - All pods should restart and systemd should enable heatseeker at boot, however there is currently no persistent state for Prometheus (time series data), or Grafana(configuration and dashboard data).
 
-- The thermocouble sensor must be connected to  **hub port 1** on the VINT hub.
+- The thermocouple sensor must be connected to  **hub port 1** on the VINT hub.
