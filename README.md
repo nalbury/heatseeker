@@ -65,9 +65,17 @@ Kuberentes is a vast subject with tons of projects supporting it so I won't dive
 
 ## Install
 
-- Connect phidgets
+- [Connect phidgets](https://www.phidgets.com/?tier=3&catid=14&pcid=12&prodid=725#Getting_Started)
 - Boot up rasbian and configure a network connection.
 - Log in as the root user (`sudo su -`)
+- Depending on the rasbian image you used you may need to install git:
+
+```
+apt-get update
+apt-get install git
+```
+
+Then clone this repo make any desired configuration changes, and run the install script:
 
 ```
 cd ~
@@ -84,11 +92,10 @@ This should install:
 - heatseeker.py in `/usr/local/bin/heatseeker.py`
 - a systemd service to run `heatseeker.py`, `heatseeker.service`
 - k3s kubernetes cluster
-- local storage class for kubenetes
 - Prometheus preconfigured to scrape heatseeker
 - Grafana exposed on port 80 (http) of the Raspberry Pi
 
-You check that everything is running with:
+You can check that everything is running with:
 `kubectl get pods --all-namespaces`
 
 It make take a minute or two for everything to come online but the finished output should something like:
@@ -97,16 +104,15 @@ NAMESPACE            NAME                                      READY   STATUS   
 grafana              grafana-0                                 1/1     Running   0          13h
 grafana              svclb-grafana-btnwh                       1/1     Running   0          13h
 kube-system          coredns-695688789-5nmjv                   1/1     Running   0          13h
-local-path-storage   local-path-provisioner-69fc9568b9-p9w5m   1/1     Running   0          13h
 prometheus           prometheus-0                              1/1     Running   0          13h
 prometheus           svclb-prometheus-gphsl                    1/1     Running   0          13h
 ```
 
 You can get the IP of your raspberry pi by running `kubectl get service -n grafana` (the `EXTERNAL-IP`). Enter this in a webbrowser to access Grafana. The default login is admin/admin.
 
-Once logged into grafana add the prometheus data source (this will hopefully be part of the install soo :-) by navigating to *Configuration* -> *Data Sources*, and click *Add Data Source*. From there simply enter the url for prometheus: http://prometheus.prometheus.svc:9090 and click *Save & Test*.
+Once logged into grafana add the prometheus data source (this will hopefully be part of the install soo :-) by navigating to **Configuration** -> **Data Sources**, and click **Add Data Source**. From there simply enter the url for prometheus: http://prometheus.prometheus.svc:9090 and click **Save & Test**.
 
-To load the default dashboard, navigate to *Create* -> *Import*, click *Upload .json file*, and upload dashboard.json from this repo.
+To load the default dashboard, navigate to **Create** -> **Import**, click **Upload .json file**, and upload dashboard.json from this repo.
 
 
 
@@ -114,7 +120,7 @@ To load the default dashboard, navigate to *Create* -> *Import*, click *Upload .
 
 In addition to the self contained install described above, you can also use an existing kubernetes cluster with network access to your Raspberry Pi to run the Prometheus/Grafana compenents. To do so:
 
-- Connect phidgets
+- [Connect phidgets](https://www.phidgets.com/?tier=3&catid=14&pcid=12&prodid=725#Getting_Started)
 - Boot up rasbian and configure a network connection.
 - Log in as the root user (`sudo su -`)
 
@@ -133,5 +139,10 @@ Once the heatseeker systemd service is running you should be able to see metrics
 curl localhost:8000/metrics |grep fahrenheit
 ```
 
-You can then add a scrape config in prometheus to scrape this endpoint from another cluster.
- 
+You can then add a scrape config for this endpoint in an existing prometheus install.
+
+## Misc
+
+- All pods should restart and systemd should enable heatseeker at boot, however there is currently no persistent state for Prometheus (time series data), or Grafana(configuration and dashboard data).
+
+- The thermocouble sensor must be connected to  **hub port 1** on the VINT hub.
