@@ -6,13 +6,13 @@ Use prometheues and grafana to monitor temperature
 
 I use prometheus and grafana at work to monitor the health of our kubernetes clusters. I also like to grill meat...
 
-Enter heatseeker! Using open source monitoring applications (prometheus, grafana), simple usb connected sensors (phidgets), a little python and a raspberry pi, heatseeker will record and display temerature data for anything you can think of. 
+Enter heatseeker! Using open source monitoring applications (prometheus, grafana), simple usb connected sensors (phidgets), a little python and a raspberry pi, heatseeker will record and display temerature data for anything you can think of... or you know... meat!
 
 ![demo](https://heatseeker-assets.s3.amazonaws.com/ezgif.com-crop.gif)
 
 ## Components and Requirements
 
-### Phidgets
+### [Phidgets](https://www.phidgets.com)
 
 Phidgets are simple usb powered sensors that can be accessed using several common programming languages. This project uses their python library and the following hardware:
 
@@ -27,7 +27,7 @@ Phidgets are simple usb powered sensors that can be accessed using several commo
 [4]: https://www.phidgets.com/?tier=3&catid=30&pcid=26&prodid=153
 
 
-NOTE: The usb connection from the VINT Hub to your Rasberry Pi needs a *MINI* usb cable. This is a slightly uncommon cable so I recommend buying it from the phidgets store when you purchase the phidgets themselves. 
+NOTE: The usb connection from the VINT Hub to your Rasberry Pi needs a **MINI** usb cable. This is a slightly uncommon cable so I recommend buying it from the phidgets store when you purchase the phidgets themselves. 
 
 The components should be pretty easy to connect:
 - Connect probe to thermocouple sensor (red=`+`, black=`-`)
@@ -61,7 +61,9 @@ Grafana is a very powerful graphing application that can graph and alert on data
 
 To run prometheus/grafana and enable service discovery of the heatseeker http endpoint, this project uses a minimal kubernetes distrobution called k3s. K3s is designed to run kubernetes on minimal hardware and wraps the essential kuberentes compenents a single binary making it perfectly suited to a Raspberry Pi.
 
-Kuberentes is a vast subject with tons of projects supporting it so I won't dive too deep into it, but the important part is that it gives us a reliable, repeatable way to schedule/orchestrate containers. For this project, we use it to run Prometheus and Grafana (see above). If you want to learn more about k3s, the [docs can be found here.](https://github.com/rancher/k3s/blob/master/README.md)
+Kuberentes is a vast subject with tons of projects, so I won't dive too deep into it, but the important part is that it gives us a reliable, repeatable way to schedule/orchestrate containers. For this project, we use it to run Prometheus and Grafana (see above). If you want to learn more about k3s, the [docs can be found here.](https://github.com/rancher/k3s/blob/master/README.md)
+
+All of the kubernetes manifests for our Grafana and Prometheus installs can be found in `./manifests`
 
 ## Install
 
