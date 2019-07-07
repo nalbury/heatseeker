@@ -4,6 +4,331 @@ metadata:
   name: grafana
 
 ---
+apiVersion: v1
+data:
+  datasources.yaml: |
+    apiVersion: 1
+    datasources:
+    - name: Prometheus
+      type: prometheus
+      access: proxy
+      orgId: 1
+      url: http://prometheus.prometheus.svc:9090
+      isDefault: true
+kind: ConfigMap
+metadata:
+  name: grafana-datasource-config
+  namespace: grafana
+
+---
+apiVersion: v1
+data:
+  dashboards.yaml: |
+    apiVersion: 1
+    providers:
+    - name: Heatseeker
+      folder: 'heatseeker'
+      type: file
+      options:
+        path: /var/lib/grafana/dashboards/
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-config
+  namespace: grafana
+
+---
+apiVersion: v1
+data:
+  heatseeker.json: |
+    {
+      "annotations": {
+        "list": [
+          {
+            "builtIn": 1,
+            "datasource": "-- Grafana --",
+            "enable": true,
+            "hide": true,
+            "iconColor": "rgba(0, 211, 255, 1)",
+            "name": "Annotations & Alerts",
+            "type": "dashboard"
+          }
+        ]
+      },
+      "editable": true,
+      "gnetId": null,
+      "graphTooltip": 0,
+      "id": 1,
+      "links": [],
+      "panels": [
+        {
+          "gridPos": {
+            "h": 10,
+            "w": 24,
+            "x": 0,
+            "y": 0
+          },
+          "id": 4,
+          "links": [],
+          "options": {
+            "fieldOptions": {
+              "calcs": [
+                "last"
+              ],
+              "defaults": {
+                "decimals": 1,
+                "max": 800,
+                "min": 0,
+                "unit": "farenheit"
+              },
+              "mappings": [],
+              "override": {},
+              "thresholds": [
+                {
+                  "color": "dark-green",
+                  "index": 0,
+                  "value": null
+                },
+                {
+                  "color": "semi-dark-orange",
+                  "index": 1,
+                  "value": 400
+                },
+                {
+                  "color": "dark-red",
+                  "index": 2,
+                  "value": 600
+                }
+              ],
+              "values": false
+            },
+            "orientation": "auto",
+            "showThresholdLabels": true,
+            "showThresholdMarkers": true
+          },
+          "pluginVersion": "6.2.5",
+          "targets": [
+            {
+              "expr": "current_temperature_fahrenheit",
+              "format": "time_series",
+              "instant": true,
+              "intervalFactor": 1,
+              "refId": "A"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Current Temp in Fahrenheit",
+          "transparent": true,
+          "type": "gauge"
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "Prometheus",
+          "fill": 0,
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 10
+          },
+          "id": 2,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 3,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {},
+          "percentage": false,
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [
+            {
+              "alias": "Temp",
+              "color": "#C4162A"
+            }
+          ],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "current_temperature_fahrenheit",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "legendFormat": "Temp",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Temperature in Fahrenheit",
+          "tooltip": {
+            "shared": false,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "transparent": true,
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "farenheit",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "cards": {
+            "cardPadding": null,
+            "cardRound": 100
+          },
+          "color": {
+            "cardColor": "#C4162A",
+            "colorScale": "sqrt",
+            "colorScheme": "interpolateYlOrRd",
+            "exponent": 0.5,
+            "max": null,
+            "mode": "spectrum"
+          },
+          "dataFormat": "timeseries",
+          "datasource": "Prometheus",
+          "gridPos": {
+            "h": 10,
+            "w": 24,
+            "x": 0,
+            "y": 22
+          },
+          "heatmap": {},
+          "hideZeroBuckets": false,
+          "highlightCards": true,
+          "id": 6,
+          "legend": {
+            "show": true
+          },
+          "links": [],
+          "options": {},
+          "reverseYBuckets": false,
+          "targets": [
+            {
+              "expr": "current_temperature_fahrenheit",
+              "format": "heatmap",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "refId": "A"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Heat Map",
+          "tooltip": {
+            "show": true,
+            "showHistogram": true
+          },
+          "transparent": true,
+          "type": "heatmap",
+          "xAxis": {
+            "show": true
+          },
+          "xBucketNumber": null,
+          "xBucketSize": "1m",
+          "yAxis": {
+            "decimals": null,
+            "format": "farenheit",
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true,
+            "splitFactor": null
+          },
+          "yBucketBound": "auto",
+          "yBucketNumber": null,
+          "yBucketSize": 10
+        }
+      ],
+      "refresh": "5s",
+      "schemaVersion": 18,
+      "style": "dark",
+      "tags": [],
+      "templating": {
+        "list": []
+      },
+      "time": {
+        "from": "now-30m",
+        "to": "now"
+      },
+      "timepicker": {
+        "refresh_intervals": [
+          "5s",
+          "10s",
+          "30s",
+          "1m",
+          "5m",
+          "15m",
+          "30m",
+          "1h",
+          "2h",
+          "1d"
+        ],
+        "time_options": [
+          "5m",
+          "15m",
+          "1h",
+          "6h",
+          "12h",
+          "24h",
+          "2d",
+          "7d",
+          "30d"
+        ]
+      },
+      "timezone": "",
+      "title": "Heat",
+      "uid": "U_lQHY4Zk",
+      "version": 3
+    }
+kind: ConfigMap
+metadata:
+  name: grafana-dashboards
+  namespace: grafana
+
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -36,6 +361,26 @@ spec:
             port: 3000
           initialDelaySeconds: 30
           periodSeconds: 5
+        volumeMounts:
+        - name: datasource-config
+          mountPath: /etc/grafana/provisioning/datasources/
+        - name: dashboard-config
+          mountPath: /etc/grafana/provisioning/dashboards/
+        - name: dashboards
+          mountPath: /var/lib/grafana/dashboards/
+      volumes:
+        - name: datasource-config
+          configMap:
+            defaultMode: 420
+            name: grafana-datasource-config
+        - name: dashboard-config
+          configMap:
+            defaultMode: 420
+            name: grafana-dashboard-config 
+        - name: dashboards
+          configMap:
+            defaultMode: 420
+            name: grafana-dashboards
 ---
 apiVersion: v1
 kind: Service
